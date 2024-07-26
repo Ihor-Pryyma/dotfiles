@@ -8,6 +8,7 @@ Welcome to my `dotfiles` repository! This repository contains my personal config
 - [Zsh](#zsh)
 - [Vim](#vim)
 - [IDEA Vim](#ideavim)
+- [TMUX](#tmux)
 
 ## Neovim
 
