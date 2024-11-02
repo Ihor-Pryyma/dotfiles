@@ -83,5 +83,67 @@ return {
   {
     "tpope/vim-cucumber",
   },
-  { "christoomey/vim-tmux-navigator" },
+  {
+    "alexghergh/nvim-tmux-navigation",
+    event = "VeryLazy",
+    config = function()
+      local nvim_tmux_nav = require "nvim-tmux-navigation"
+      nvim_tmux_nav.setup {
+        disable_when_zoomed = true,
+        -- defaults to false
+        keybindings = {
+          left = "<C-h>",
+          down = "<C-j>",
+          up = "<C-k>",
+          right = "<C-l>",
+          last_active = "<C-\\>",
+          next = "<C-Space>",
+        },
+      }
+    end,
+  },
+  {
+    {
+      "aserowy/tmux.nvim",
+      config = function()
+        return require("tmux").setup {
+          resize = {
+            enable_default_keybindings = false,
+          },
+        }
+      end,
+    },
+  },
+  {
+    {
+      "nvim-neotest/neotest",
+      dependencies = { "nvim-neotest/neotest-python" },
+      opts = function(_, opts)
+        table.insert(opts.adapters, require "neotest-python")
+      end,
+    },
+  },
+  {
+    "DaikyXendo/nvim-material-icon",
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
+  },
 }
