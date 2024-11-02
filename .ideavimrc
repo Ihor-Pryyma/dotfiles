@@ -1,0 +1,93 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+"   the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+let mapleader = " "
+let localmapleader = " "
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=10
+set relativenumber
+set clipboard=unnamedplus
+" Do incremental searching.
+set incsearch
+set smartcase
+" Highlight search results.
+set hlsearch
+" disable bell
+set noerrorbells
+
+" --- Key mappings ---
+" Map jk to <Esc> in insert mode
+inoremap jk <Esc>
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+" Tab navigation
+nnoremap <Tab> :tabnext<CR>
+nnoremap <s-Tab> :tabprev<CR>\
+" Close current tab
+map <leader>x :tabclose<CR>
+" Remap navigation between panes using Ctrl + hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Remap <s-:> to ; in normal mode
+nnoremap ; :
+
+" Remap 2 esc to clear all highlights
+nnoremap <esc><esc> :nohlsearch<CR>
+
+" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Nerdtree plugin
+Plug 'preservim/nerdtree'
+" Surround plugin
+Plug 'tpope/vim-surround'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+let g:highlightedyank_highlight_duration = "500"
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+map <leader>fm <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+map <leader>dr <Action>(Debug)
+map <leader>db <Action>(ToggleLineBreakpoint)
+
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+" Map Ctr-n to toggle NerdTree
+map <C-n> :NERDTreeToggle<CR>
+
+" File and Content navigation
+map <leader>ff <action>(GotoFile)
+map <leader>fw <action>(FindInPath)
+map <leader>fr <action>(Run)
+
+" Refactoring
+map <leader>rn <action>(RenameElement)
+map <leader>rm <action>(ExtractMethod)
+map <leader>rr <action>(Refactoring.QuickListPopupAction)
+
+" Terminal
+nnoremap <M-h> :action ActivateTerminalToolWindow<CR>
+nnoremap <leader>td :action ActivateDebugToolWindow<CR>
+nnoremap <leader>tb :action ActivateDatabaseToolWindow<CR>
+nnoremap <leader>tr :action ActivateRunToolWindow<CR>
+" Folding
+map <leader>za :action CollapseAllRegions<CR>
+map <leader>zo :action ExpandAllRegions<CR>
+map <leader>zc :action CollapseRegion<CR>
+map <leader>ze :action ExpandRegion<CR>
