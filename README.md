@@ -3,6 +3,7 @@
 This repository contains configuration files and settings to streamline my development environment setup, including configurations for Neovim, Zsh, Git, and more.
 
 ## Folder Structure
+```plaintext
 .
 ├── .config                     # Application-specific configurations
 │   └── nvim                    # Neovim configurations for NvChad setup
@@ -18,7 +19,7 @@ This repository contains configuration files and settings to streamline my devel
 ├── .vimrc                      # Legacy Vim configuration
 ├── .zshrc                      # Zsh configuration file, sources environment variables and aliases
 └── README.md                   # This file, containing an overview of the repository structure
-
+```
 ### Key Configurations
 
 - **Neovim** (`.config/nvim`): Contains all configuration files for setting up Neovim with NvChad as the base configuration.
