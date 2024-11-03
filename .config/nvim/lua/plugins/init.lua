@@ -155,7 +155,12 @@ return {
   {
     "nvim-neotest/nvim-nio",
   },
-
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    opts = {
+      virt_text_win_col = 80,
+    },
+  },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = {
