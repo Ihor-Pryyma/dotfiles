@@ -11,7 +11,7 @@ let localmapleader = " "
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=10
 set relativenumber
-set clipboard=unnamedplus
+set clipboard^=unnamed,unnamedplus
 " Do incremental searching.
 set incsearch
 set smartcase
@@ -19,17 +19,36 @@ set smartcase
 set hlsearch
 " disable bell
 set noerrorbells
+" Enable ideajoin to join lines with correct indentation
+set ideajoin
+
+" do not store delete register
+xnoremap p P
 
 " --- Key mappings ---
 " Map jk to <Esc> in insert mode
 inoremap jk <Esc>
+inoremap jj <Esc>
 " Don't use Ex mode, use Q for formatting.
 map Q gq
 " Tab navigation
-nnoremap <Tab> :tabnext<CR>
-nnoremap <s-Tab> :tabprev<CR>\
-" Close current tab
-map <leader>x :tabclose<CR>
+nnoremap ]t :tabnext<CR>
+nnoremap [t :tabprev<CR>\
+" Buffer navigation
+nnoremap ]b :bnext<CR>
+nnoremap [b :bprev<CR>
+" Close all buffers except the current one
+nnoremap <leader>bc :action CloseAllEditorsButActive<CR>
+" Cloase all buffers
+nnoremap <leader>bC :action CloseAllEditors<CR>
+" Close all unmodified buffers
+nnoremap <leader>bd :action CloseUnmodifiedEditors<CR>
+" Close all to the right
+nnoremap <leader>br :action CloseEditorsToTheRight<CR>
+" Close all to the left
+nnoremap <leader>bl :action CloseEditorsToTheLeft<CR>
+
+"
 " Remap navigation between panes using Ctrl + hjkl
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -38,12 +57,113 @@ nnoremap <C-l> <C-w>l
 
 " Remap <s-:> to ; in normal mode
 nnoremap ; :
+" Remap Leader-w to save
+nnoremap <leader>w :w<CR>
+" Remap Leader-c to close tab
+nnoremap <leader>c :q!<CR>
 
 " Remap 2 esc to clear all highlights
 nnoremap <esc><esc> :nohlsearch<CR>
+" Toggle Comment line
+nnoremap <leader>/ :Commentary<CR>
+" Horizontal split
+nnoremap \ :sp<CR>
+" Vertical split
+map <Bar> :vsp<CR>
+" Format document
+nnoremap <leader>lf :action ReformatCode<CR>
+" Show structure
+nnoremap <leader>lS :action FileStructurePopup<CR>
+" Diagnostic next
+nnoremap ]d : action GotoNextError<CR>
+" Diagnostic previous
+nnoremap [d : action GotoPreviousError<CR>
+" Show all problems
+nnoremap <leader>ld :action ActivateProblemsViewToolWindow<CR>
+" Hide active tool window
+nnoremap <leader><leader> :action HideActiveWindow<CR>
+" Show code actions
+nnoremap <leader>la :action ShowIntentionActions<CR>
+" Rename element
+nnoremap <leader>lr :action RenameElement<CR>
+" Navigate to Symbol
+nnoremap <leader>lG :action GotoSymbol<CR>
+" Navigate to declaration
+nnoremap gd :action GotoDeclaration<CR>
+" Navigate to implementation
+nnoremap gI :action GotoImplementation<CR>
+" Navigate to type declaration
+nnoremap gy :action GotoTypeDeclaration<CR>
+" Navigate to definition
+nnoremap gd :action GotoDeclaration<CR>GotoTypeDeclaration
 
+" Debugging
+" Run test
+nnoremap <leader>dt :action RunClass<CR>
+" Toggle line breakpoint
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+" Start debug
+nnoremap <leader>dc :action Debug<CR>
+" Resume debug
+nnoremap <leader>dr :action Resume<CR>
+" Step over
+nnoremap <leader>do :action StepOver<CR>
+" Step into
+nnoremap <leader>di :action StepInto<CR>
+" Step out
+nnoremap <leader>dp :action StepOut<CR>
+" Stop debug
+nnoremap <leader>dQ :action Stop<CR>
+" Evaluate expression
+nnoremap <leader>dE :action EvaluateExpression<CR>
+" Toggle debugger UI
+nnoremap <leader>dU :action ActivateDebugToolWindow<CR>
+" Debugger hover
+nnoremap <leader>dh :action ShowHoverInfo<CR>
+
+" Telescope
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fw :action FindInPath<CR>
+nnoremap <leader>fC :action GotoClass<CR>
+nnoremap <leader>fW :action TextSearchAction<CR>
+" Find
+nnoremap <leader>f' :action Find<CR>
+" Replace
+nnoremap <leader>fr :action Replace<CR>
+" Find usage under cursor
+nnoremap <leader>fu :action FindUsages<CR>
+
+" Git
+" Git branches
+nnoremap <leader>gb :action Git.Branches<CR>
+" Git commits
+nnoremap <leader>gc :action Vcs.Show.Log<CR>
+" Git menu
+nnoremap <leader>gg :action Vcs.QuickListPopupAction<CR>
+
+" Map Ctr-n to toggle NerdTree
+map <leader>e :NERDTreeToggle<CR>
+" NerdTree focus
+map <leader>o :NERDTreeFocus<CR>
+" Navigation between NerdTree and editor
+
+" Terminal
+nnoremap <leader>th :action ActivateTerminalToolWindow<CR>
+" Commit menu
+nnoremap <leader>tl :action ActivateCommitToolWindow<CR>
+" Python REPL
+nnoremap <leader>tp :action ActivatePythonConsoleToolWindow<CR>
+
+" Editor
+" Move lines down
+vnoremap J :action MoveLineDown<CR>
+" Move lines up
+vnoremap K :action MoveLineUp<CR>
+" Navigate to last edit location
+nnoremap <leader>l. :action JumpToLastChange<CR>
+" Navigate to next edit location
+nnoremap <leader>l, :action JumpToNextChange<CR>
 " --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
-
 " Highlight copied text
 Plug 'machakann/vim-highlightedyank'
 " Nerdtree plugin
@@ -56,38 +176,3 @@ Plug 'tpope/vim-commentary'
 Plug 'machakann/vim-highlightedyank'
 let g:highlightedyank_highlight_duration = "500"
 
-"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
-"" Map \r to the Reformat Code action
-"map \r <Action>(ReformatCode)
-map <leader>fm <Action>(ReformatCode)
-
-"" Map <leader>d to start debug
-map <leader>dr <Action>(Debug)
-map <leader>db <Action>(ToggleLineBreakpoint)
-
-
-"" Map \b to toggle the breakpoint on the current line
-"map \b <Action>(ToggleLineBreakpoint)
-" Map Ctr-n to toggle NerdTree
-map <C-n> :NERDTreeToggle<CR>
-
-" File and Content navigation
-map <leader>ff <action>(GotoFile)
-map <leader>fw <action>(FindInPath)
-map <leader>fr <action>(Run)
-
-" Refactoring
-map <leader>rn <action>(RenameElement)
-map <leader>rm <action>(ExtractMethod)
-map <leader>rr <action>(Refactoring.QuickListPopupAction)
-
-" Terminal
-nnoremap <M-h> :action ActivateTerminalToolWindow<CR>
-nnoremap <leader>td :action ActivateDebugToolWindow<CR>
-nnoremap <leader>tb :action ActivateDatabaseToolWindow<CR>
-nnoremap <leader>tr :action ActivateRunToolWindow<CR>
-" Folding
-map <leader>za :action CollapseAllRegions<CR>
-map <leader>zo :action ExpandAllRegions<CR>
-map <leader>zc :action CollapseRegion<CR>
-map <leader>ze :action ExpandRegion<CR>
